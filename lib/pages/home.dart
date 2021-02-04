@@ -99,6 +99,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         padding: EdgeInsets.fromLTRB(10, 20, 10, 5),
         child: Column(children: <Widget>[
+          SizedBox(height: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
