@@ -1,0 +1,15 @@
+const String homeRoute = '/';
+const String contactUsRoute = 'contactus';
+const String settingsRoute = 'settings';
+const String aboutusRoute = 'aboutus';
+const String galleryRoute = 'gallery';
+const String videosRoute = 'videos';
+const String faqRoute = 'faq';
+const String teamWorkRoute = 'teamwork';
+const String loginRoute = 'login';
+const String registerRoute = 'register';
+const String profileRoute = 'profile';
+const String welcomeRoute = 'welcome';
+const String bookingRoute = 'booking';
+const String consultationsRoute = 'consultations';
+const String resetPasswordRoute = 'reset-password';
