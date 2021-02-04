@@ -25,13 +25,14 @@ class _MainDrawerState extends State<MainDrawer> {
       return Column(
         children: [
           Container(
-              color: Theme.of(context).primaryColor,
-              height: 120,
-              width: 120,
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                backgroundImage: AssetImage('lib/assets/images/logo.png'),
-              )),
+            color: Theme.of(context).primaryColor,
+            height: 120,
+            width: 120,
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: AssetImage('lib/assets/images/logo.png'),
+            ),
+          ),
           Container(
             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
             child: Text(userName,
@@ -42,7 +43,7 @@ class _MainDrawerState extends State<MainDrawer> {
               color: Colors.amber[100],
               borderRadius: BorderRadius.circular(20),
             ),
-            width: 160,
+            // width: 160,
             margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
             child: Center(
               child: new Row(
@@ -52,7 +53,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     child: new Text(
                       getTranslated(context, 'edit-profile'),
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor, fontSize: 16),
+                          color: Theme.of(context).primaryColor, fontSize: 14),
                     ),
                     onTap: () {
                       Navigator.pop(context);
@@ -69,7 +70,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     child: new Text(
                       getTranslated(context, 'logout'),
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor, fontSize: 16),
+                          color: Theme.of(context).primaryColor, fontSize: 14),
                     ),
                     onTap: () async {
                       SharedPreferences prefs =
