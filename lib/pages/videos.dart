@@ -22,49 +22,42 @@ class _VideosPageState extends State<VideosPage> {
 
   getJsonData() async {
     try {
-      var response = await http.post(Utils.VIDEOS_URL,
-                                  body: {
-                                      'lang' : 'ar'
-                                  });
-        videosData = json.decode(response.body);
-        return videosData[0];
+      var response = await http.post(Utils.VIDEOS_URL, body: {'lang': 'ar'});
+      videosData = json.decode(response.body);
+      return videosData[0];
     } catch (e) {
-      print('${e}');
+      print(e.toString());
     }
   }
 
   _displayVideos() {
     return FutureBuilder(
-            future: getJsonData(),
-            builder: (context , snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                List<dynamic> videosList = snapshot.data ;
-                return ListView.builder(
-                  itemCount: videosList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SingleVideo(
-                      videoPlayerController: VideoPlayerController.network(
-                        videosList[index]['VideoFile'],
-                      ),
-                    );
-                  }
-                );
-
-              }
-              return Container();
-            }
-          );
+        future: getJsonData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            List<dynamic> videosList = snapshot.data;
+            return ListView.builder(
+                itemCount: videosList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SingleVideo(
+                    videoPlayerController: VideoPlayerController.network(
+                      videosList[index]['VideoFile'],
+                    ),
+                  );
+                });
+          }
+          return Container();
+        });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MainDrawer(),
       appBar: PreferredSize(
-                preferredSize: Size.fromHeight(105.0),
-                child: MainAppBar(getTranslated(context, 'Videos'))
-              ),
+          preferredSize: Size.fromHeight(105.0),
+          child: MainAppBar(getTranslated(context, 'Videos'))),
       body: _displayVideos(),
-    
     );
   }
 }

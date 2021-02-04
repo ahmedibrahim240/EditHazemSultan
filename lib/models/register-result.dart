@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'register_model.dart';
 
+// ignore: must_be_immutable
 class Result extends StatelessWidget {
   RegisterModel registerModel;
 

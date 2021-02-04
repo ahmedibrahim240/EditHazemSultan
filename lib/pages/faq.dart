@@ -25,7 +25,7 @@ class _FAQPageState extends State<FAQPage> {
       print(faqsData);
       return faqsData;
     } catch (e) {
-      print('${e}');
+      print(e.toString());
     }
   }
 
@@ -44,8 +44,8 @@ class _FAQPageState extends State<FAQPage> {
                         border: Border.all(width: 1.0, color: Colors.gold),
                         borderRadius: BorderRadius.circular(20)),
                     child: GFAccordion(
-                        collapsedTitlebackgroundColor: Colors.white,
-                        expandedTitlebackgroundColor: Colors.white,
+                        collapsedTitleBackgroundColor: Colors.white,
+                        expandedTitleBackgroundColor: Colors.white,
                         contentBorder: Border(
                             top: BorderSide(
                                 color: Theme.of(context).dividerColor)),

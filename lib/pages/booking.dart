@@ -16,7 +16,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class Item {
-  const Item(this.name,this.value);
+  const Item(this.name, this.value);
   final String name;
   final String value;
 }
@@ -26,17 +26,18 @@ class _BookingPageState extends State<BookingPage> {
   TextEditingController _name = TextEditingController();
   TextEditingController _gender = TextEditingController();
   TextEditingController _age = TextEditingController();
+  // ignore: unused_field
   TextEditingController _date = TextEditingController();
   String chossenDate;
 
   List<Item> users = <Item>[
-    const Item('Male','male'),
-    const Item('Female','female')
+    const Item('Male', 'male'),
+    const Item('Female', 'female')
   ];
   Item selectedUser;
 
   String userID, userName, userEmail;
-  Future<void>getLoggeInUser()async {
+  Future<void> getLoggeInUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       userID = sharedPreferences.getString('hazem_sultan_user_id');
@@ -45,16 +46,15 @@ class _BookingPageState extends State<BookingPage> {
     });
   }
 
-  _uploadData() async{
+  _uploadData() async {
     try {
-      var response = await http.post(Utils.BOOKNOW_URL,
-                                  body: {
-                                      'name'   : _name.text,
-                                      'gender': _gender.text,
-                                      'age': _age.text,
-                                      'date'    : chossenDate,
-                                      'user_id' : userID
-                                  });
+      var response = await http.post(Utils.BOOKNOW_URL, body: {
+        'name': _name.text,
+        'gender': _gender.text,
+        'age': _age.text,
+        'date': chossenDate,
+        'user_id': userID
+      });
       print('this is the response ${response.body}');
       Map<String, dynamic> map = json.decode(response.body);
       setState(() async {
@@ -70,8 +70,8 @@ class _BookingPageState extends State<BookingPage> {
     } catch (e) {
       print(e);
     }
-
   }
+
   @override
   void initState() {
     super.initState();
@@ -82,125 +82,119 @@ class _BookingPageState extends State<BookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-                preferredSize: Size.fromHeight(100.0),
-                child: MainAppBar(getTranslated(context, 'book_now'))
-              ),
+          preferredSize: Size.fromHeight(100.0),
+          child: MainAppBar(getTranslated(context, 'book_now'))),
       body: Material(
-        child: Column(
-            children: <Widget>[
-              new Container(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      FlatButton(
-                        onPressed: () {
-                          DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {
-                            print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-                          }, onConfirm: (date) {
-                            setState(() {
-                              chossenDate = date.toString();
-                            });
-                            print('confirm $date');
-                          }, currentTime: DateTime. now());
-                        },
-                        child: 
-                          (chossenDate != null) ?
-                            Text(
+          child: Column(
+        children: <Widget>[
+          new Container(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  FlatButton(
+                      onPressed: () {
+                        DatePicker.showDateTimePicker(context,
+                            showTitleActions: true, onChanged: (date) {
+                          print('change $date in time zone ' +
+                              date.timeZoneOffset.inHours.toString());
+                        }, onConfirm: (date) {
+                          setState(() {
+                            chossenDate = date.toString();
+                          });
+                          print('confirm $date');
+                        }, currentTime: DateTime.now());
+                      },
+                      child: (chossenDate != null)
+                          ? Text(
                               chossenDate,
                               style: TextStyle(color: Colors.blue),
                             )
-                          :
-                            Text(
+                          : Text(
                               'Choose Your Prefered Date',
                               style: TextStyle(color: Colors.blue),
-                            )
+                            )),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _name,
+                      decoration: new InputDecoration(
+                        hintText: 'Your Name',
+                        contentPadding: EdgeInsets.all(15.0),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey[200], width: 1),
+                            borderRadius: BorderRadius.circular(10)),
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: _name,
-                          decoration: new InputDecoration(
-                            hintText: 'Your Name',
-                            contentPadding: EdgeInsets.all(15.0),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color:Colors.grey[200],width:1),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          validator: (val) => val.isEmpty
-                            ? "enter your name"
-                            : null,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: _age,
-                          decoration: new InputDecoration(
-                            hintText: 'age',
-                            contentPadding: EdgeInsets.all(15.0),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color:Colors.grey[200],width:1),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          validator: (val) => val.isEmpty
-                            ? "enter your age"
-                            : null,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: DropdownButton<Item>(
-                                hint:  Text("Select Your Gender"),
-                                value: selectedUser,
-                                onChanged: (Item Value) {
-                                  setState(() {
-                                    selectedUser = Value;
-                                  });
-                                },
-                                items: users.map((Item user) {
-                                  return  DropdownMenuItem<Item>(
-                                    value: user,
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          user.name,
-                                          style:  TextStyle(color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                      ),
-
-                      RaisedButton(
-                        color: Colors.blueAccent,
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _uploadData();
-                          }
-                        },
-                        child: Text(
-                          'Book Now',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
+                      validator: (val) =>
+                          val.isEmpty ? "enter your name" : null,
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: _age,
+                      decoration: new InputDecoration(
+                        hintText: 'age',
+                        contentPadding: EdgeInsets.all(15.0),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey[200], width: 1),
+                            borderRadius: BorderRadius.circular(10)),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (val) => val.isEmpty ? "enter your age" : null,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: DropdownButton<Item>(
+                      hint: Text("Select Your Gender"),
+                      value: selectedUser,
+                      // ignore: non_constant_identifier_names
+                      onChanged: (Item Value) {
+                        setState(() {
+                          selectedUser = Value;
+                        });
+                      },
+                      items: users.map((Item user) {
+                        return DropdownMenuItem<Item>(
+                          value: user,
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                user.name,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Colors.blueAccent,
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        _uploadData();
+                      }
+                    },
+                    child: Text(
+                      'Book Now',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          )
-        ),
+            ),
+          ),
+        ],
+      )),
     );
   }
 
@@ -224,5 +218,4 @@ class _BookingPageState extends State<BookingPage> {
       },
     );
   }
-
 }

@@ -30,7 +30,7 @@ class _GalleryPageState extends State<GalleryPage> {
         galleryData = json.decode(response.body);
         return galleryData[0];
     } catch (e) {
-      print('${e}');
+      print(e.toString());
     }
   }
 
