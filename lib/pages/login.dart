@@ -102,8 +102,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   static final FacebookLogin facebookSignIn = new FacebookLogin();
-  Future<Null> _fbLogin() async {
-    final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+  // Future<Null>
+  _fbLogin() async {
+    final result = await facebookSignIn.logIn(['email']);
     print("the fb result:" + result.status.toString());
 
     switch (result.status) {
@@ -111,7 +112,8 @@ class _LoginPageState extends State<LoginPage> {
         final FacebookAccessToken accessToken = result.accessToken;
         final token = result.accessToken.token;
         final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,email&access_token=$token');
+            // ignore: unnecessary_brace_in_string_interps
+            'https://graph.facebook.com/v2.12/me?fields=name,email&access_token=${token}');
         final profile = json.decode(graphResponse.body);
         _loginWithFB(accessToken.userId, profile['name'], profile['email']);
         break;
