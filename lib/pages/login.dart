@@ -104,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
   static final FacebookLogin facebookSignIn = new FacebookLogin();
   Future<Null> _fbLogin() async {
     final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+    print("the fb result:" + result.status.toString());
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
