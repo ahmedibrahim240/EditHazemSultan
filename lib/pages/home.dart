@@ -60,31 +60,47 @@ class _HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width * .45,
                       height: 150,
                       margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * .015,
-                          right: MediaQuery.of(context).size.width * .015),
-                      child:
-                          Stack(alignment: Alignment.center, children: <Widget>[
-                        Image(
-                            loadingBuilder: (context, image,
-                                ImageChunkEvent loadingProgress) {
-                              if (loadingProgress == null) {
-                                return image;
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                            height: 100,
-                            fit: BoxFit.fill,
-                            image: (homeData != null)
-                                ? NetworkImage(teamMembers[index]['file'])
-                                : AssetImage('lib/assets/images/faq.png')),
-                        Text(
-                          teamMembers[index]['name_' +
-                              getTranslated(context, 'this_lang_code')],
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ]));
+                        left: MediaQuery.of(context).size.width * .015,
+                        right: MediaQuery.of(context).size.width * .015,
+                      ),
+                      child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: <Widget>[
+                            Image(
+                              loadingBuilder: (context, image,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return image;
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                              height: 100,
+                              fit: BoxFit.fill,
+                              image: (homeData != null)
+                                  ? NetworkImage(teamMembers[index]['file'])
+                                  : AssetImage('lib/assets/images/faq.png'),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                width: 100,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(.4),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              teamMembers[index]['name_' +
+                                  getTranslated(context, 'this_lang_code')],
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ]));
                 });
           }
           return Container();
@@ -169,35 +185,52 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: MediaQuery.of(context).size.width * .45,
               child: InkWell(
-                  child: Stack(alignment: Alignment.center, children: <Widget>[
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
                     Image(
-                        loadingBuilder:
-                            (context, image, ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) {
-                            return image;
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                        image: (homeData != null)
-                            ? NetworkImage(homeData[0]['HomeFAQsImage'])
-                            : AssetImage('lib/assets/images/faq.png')),
+                      loadingBuilder:
+                          (context, image, ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) {
+                          return image;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                      image: (homeData != null)
+                          ? NetworkImage(homeData[0]['HomeFAQsImage'])
+                          : AssetImage('lib/assets/images/faq.png'),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: Container(
+                        height: 30,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(.4),
+                        ),
+                      ),
+                    ),
                     Text(
                       getTranslated(context, 'faqs'),
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
-                  ]),
-                  onTap: () {
-                    Navigator.pushNamed(context, faqRoute);
-                  }),
+                  ],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, faqRoute);
+                },
+              ),
             ),
             Container(width: MediaQuery.of(context).size.width * .03),
             Container(
               width: MediaQuery.of(context).size.width * .45,
               child: InkWell(
-                  child: Stack(alignment: Alignment.center, children: <Widget>[
-                    Image(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: <Widget>[
+                      Image(
                         loadingBuilder:
                             (context, image, ImageChunkEvent loadingProgress) {
                           if (loadingProgress == null) {
@@ -208,13 +241,27 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                         image: (homeData != null)
-                            ? NetworkImage(homeData[0]['HomeGalleryImage'])
-                            : AssetImage('lib/assets/images/gallery.png')),
-                    Text(
-                      getTranslated(context, 'gallery'),
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  ]),
+                            ? NetworkImage(
+                                homeData[0]['HomeGalleryImage'],
+                              )
+                            : AssetImage('lib/assets/images/gallery.png'),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(.4),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        getTranslated(context, 'gallery'),
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                    ],
+                  ),
                   onTap: () {
                     Navigator.pushNamed(context, galleryRoute);
                   }),

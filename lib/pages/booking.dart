@@ -28,7 +28,7 @@ class _BookingPageState extends State<BookingPage> {
   TextEditingController _age = TextEditingController();
   // ignore: unused_field
   TextEditingController _date = TextEditingController();
-  String chossenDate;
+  String chossenDate = DateTime.now().toString();
 
   List<Item> users = <Item>[
     const Item('Male', 'male'),
@@ -55,7 +55,7 @@ class _BookingPageState extends State<BookingPage> {
         'date': chossenDate,
         'user_id': userID
       });
-      print('this is the response ${response.body}');
+      print('this is the responseثثثثثثثثثثثثث :${response.body}');
       Map<String, dynamic> map = json.decode(response.body);
       setState(() async {
         // print('this is the userData data ${userData}');
@@ -85,115 +85,143 @@ class _BookingPageState extends State<BookingPage> {
           preferredSize: Size.fromHeight(100.0),
           child: MainAppBar(getTranslated(context, 'book_now'))),
       body: Material(
-          child: Column(
-        children: <Widget>[
-          new Container(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  FlatButton(
-                      onPressed: () {
-                        DatePicker.showDateTimePicker(context,
-                            showTitleActions: true, onChanged: (date) {
-                          print('change $date in time zone ' +
-                              date.timeZoneOffset.inHours.toString());
-                        }, onConfirm: (date) {
-                          setState(() {
-                            chossenDate = date.toString();
-                          });
-                          print('confirm $date');
-                        }, currentTime: DateTime.now());
-                      },
-                      child: (chossenDate != null)
-                          ? Text(
-                              chossenDate,
-                              style: TextStyle(color: Colors.blue),
-                            )
-                          : Text(
-                              'Choose Your Prefered Date',
-                              style: TextStyle(color: Colors.blue),
-                            )),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _name,
-                      decoration: new InputDecoration(
-                        hintText: 'Your Name',
-                        contentPadding: EdgeInsets.all(15.0),
-                        border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey[200], width: 1),
-                            borderRadius: BorderRadius.circular(10)),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (val) =>
-                          val.isEmpty ? "enter your name" : null,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _age,
-                      decoration: new InputDecoration(
-                        hintText: 'age',
-                        contentPadding: EdgeInsets.all(15.0),
-                        border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey[200], width: 1),
-                            borderRadius: BorderRadius.circular(10)),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (val) => val.isEmpty ? "enter your age" : null,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: DropdownButton<Item>(
-                      hint: Text("Select Your Gender"),
-                      value: selectedUser,
-                      // ignore: non_constant_identifier_names
-                      onChanged: (Item Value) {
-                        setState(() {
-                          selectedUser = Value;
-                        });
-                      },
-                      items: users.map((Item user) {
-                        return DropdownMenuItem<Item>(
-                          value: user,
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                user.name,
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ],
+          child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            new Container(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Choose Your Prefered Date',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
                           ),
-                        );
-                      }).toList(),
+                        ),
+                        SizedBox(width: 4),
+                        FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            side: BorderSide(
+                              color: Colors.gold,
+                            ),
+                          ),
+                          onPressed: () {
+                            DatePicker.showDateTimePicker(
+                              context,
+                              showTitleActions: true,
+                              onChanged: (date) {
+                                print('change $date in time zone ' +
+                                    date.timeZoneOffset.inHours.toString());
+                              },
+                              onConfirm: (date) {
+                                setState(() {
+                                  chossenDate = date.toString();
+                                });
+                                print('confirm $date');
+                              },
+                              currentTime: DateTime.now(),
+                            );
+                          },
+                          child: Text(
+                            chossenDate,
+                            style: TextStyle(
+                              color: Colors.gold,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  RaisedButton(
-                    color: Colors.blueAccent,
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _uploadData();
-                      }
-                    },
-                    child: Text(
-                      'Book Now',
-                      style: TextStyle(
-                        color: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: _name,
+                        decoration: new InputDecoration(
+                          hintText: 'Your Name',
+                          contentPadding: EdgeInsets.all(15.0),
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey[200], width: 1),
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (val) =>
+                            val.isEmpty ? "enter your name" : null,
                       ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: _age,
+                        decoration: new InputDecoration(
+                          hintText: 'age',
+                          contentPadding: EdgeInsets.all(15.0),
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey[200], width: 1),
+                              borderRadius: BorderRadius.circular(10)),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (val) =>
+                            val.isEmpty ? "enter your age" : null,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: DropdownButton<Item>(
+                        hint: Text("Select Your Gender"),
+                        value: selectedUser,
+                        // ignore: non_constant_identifier_names
+                        onChanged: (Item Value) {
+                          setState(() {
+                            selectedUser = Value;
+                          });
+                        },
+                        items: users.map((Item user) {
+                          return DropdownMenuItem<Item>(
+                            value: user,
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  user.name,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    RaisedButton(
+                      color: Colors.blueAccent,
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _uploadData();
+                        }
+                      },
+                      child: Text(
+                        'Book Now',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       )),
     );
   }
