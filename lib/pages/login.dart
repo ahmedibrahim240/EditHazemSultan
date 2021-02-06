@@ -29,8 +29,10 @@ class _LoginPageState extends State<LoginPage> {
 
   _uploadData() async {
     try {
-      var response = await http.post(Utils.LOGIN_URL,
-          body: {'email': _email.text, 'password': _password.text});
+      var response = await http.post(
+        Utils.LOGIN_URL,
+        body: {'email': _email.text, 'password': _password.text},
+      );
       print('this is the response ${response.body}');
       Map<String, dynamic> map = json.decode(response.body);
       setState(() async {
@@ -73,31 +75,39 @@ class _LoginPageState extends State<LoginPage> {
 
       Map<String, dynamic> map = json.decode(response.body);
       _handleClickMe(map);
-      setState(() async {
-        // print('this is the userData data ${userData}');
-        if (map['status'] == 'failed') {
-          _handleClickMe(map['error']);
-        }
-        if (map['status'] == 'success') {
-          SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          await sharedPreferences.setString(
-              'hazem_sultan_user_id', map['data']['id'].toString());
-          await sharedPreferences.setString(
-              'hazem_sultan_user_name', map['data']['name'].toString());
-          await sharedPreferences.setString(
-              'hazem_sultan_user_email', map['data']['email'].toString());
-          await sharedPreferences.setString(
-              'hazem_sultan_user_phone', map['data']['phone'].toString());
-          Navigator.pop(context);
-          Navigator.pushNamed(context, homeRoute);
-          _handleClickMe(
-              getTranslated(context, 'registered-successfuly-message'));
-        }
-      });
+      setState(
+        () async {
+          // print('this is the userData data ${userData}');
+          if (map['status'] == 'failed') {
+            print(
+                'faileddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
+            _handleClickMe(map['error']);
+          } else if (map['status'] == 'success') {
+            print('successsssssssssssssssssssssssssssssssssss');
+            SharedPreferences sharedPreferences =
+                await SharedPreferences.getInstance();
+            await sharedPreferences.setString(
+                'hazem_sultan_user_id', map['data']['id'].toString());
+            await sharedPreferences.setString(
+                'hazem_sultan_user_name', map['data']['name'].toString());
+            await sharedPreferences.setString(
+                'hazem_sultan_user_email', map['data']['email'].toString());
+            await sharedPreferences.setString(
+                'hazem_sultan_user_phone', map['data']['phone'].toString());
+            Navigator.pop(context);
+            Navigator.pushNamed(context, homeRoute);
+            _handleClickMe(
+                getTranslated(context, 'registered-successfuly-message'));
+          } else {
+            print('terrrrrrrrrrrrrrrrrrrrroroooooooooooooooot');
+          }
+        },
+      );
       // Navigator.pop(context);
     } catch (e) {
-      print(e);
+      print(
+          'Catchhhhhhhhhhhhhhhhhhhhhhh errororororrorrorooroeoreoroeroeorero');
+      print('home error:' + e.toString());
     }
   }
 
@@ -109,18 +119,19 @@ class _LoginPageState extends State<LoginPage> {
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        final FacebookAccessToken accessToken = result.accessToken;
+        final FacebookAccessToken accesstoken = result.accessToken;
         final token = result.accessToken.token;
         final graphResponse = await http.get(
-            // ignore: unnecessary_brace_in_string_interps
-            'https://graph.facebook.com/v2.12/me?fields=name,email&access_token=${token}');
+            'https://graph.facebook.com/v2.12/me?fields=name,email&access_token=$token');
         final profile = json.decode(graphResponse.body);
-        _loginWithFB(accessToken.userId, profile['name'], profile['email']);
+        // Navigator.pushNamed(context, homeRoute);
+        _loginWithFB(accesstoken.userId, profile['name'], profile['email']);
         break;
       case FacebookLoginStatus.cancelledByUser:
         _handleClickMe('Login cancelled by the user.');
         break;
       case FacebookLoginStatus.error:
+        print('the errorMessage:' + result.errorMessage.toString());
         _handleClickMe('Something went wrong with the login process.\n'
             'Here\'s the error Facebook gave us: ${result.errorMessage}');
         break;
