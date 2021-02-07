@@ -162,6 +162,7 @@ class _BookingPageState extends State<BookingPage> {
                       padding: EdgeInsets.all(8.0),
                       child: TextFormField(
                         controller: _age,
+                        keyboardType: TextInputType.number,
                         decoration: new InputDecoration(
                           hintText: 'age',
                           contentPadding: EdgeInsets.all(15.0),
